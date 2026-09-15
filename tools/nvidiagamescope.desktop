@@ -4,5 +4,4 @@ Comment=Steam gaming session using the NVIDIA-focused Gamescope fork
 Exec=nvidiagamescope-session
 TryExec=nvidiagamescope-session
 Type=Application
-DesktopNames=NVIDIAGamescope
 X-GDM-SessionRegisters=true
