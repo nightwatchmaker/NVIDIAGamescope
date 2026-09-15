@@ -48,7 +48,10 @@ This installs:
 
  - `nvidiagamescope` as the NVIDIA-focused compositor
  - `nvidiagamescope-session` as a Steam Big Picture session wrapper
+ - `nvidiagamescope-doctor` for NVIDIA/KMS/session diagnostics
  - `nvidiagamescope.desktop` into `share/wayland-sessions` for SDDM/GDM session selection
+
+The session defaults to the safer `safe` profile, which forces GPU composition. Set `NVIDIAGAMESCOPE_PROFILE=performance` in a test launch to compare direct scan-out performance after confirming the safe profile is stable.
 
 The session is deliberately labeled **Experimental**. Select it from the display manager only when NVIDIA DRM KMS is enabled and the normal desktop session remains available for rollback. To remove the local install, use the generated uninstall script from the build directory or remove the package through your distribution's package manager.
 

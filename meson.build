@@ -122,6 +122,10 @@ install_data(
   install_dir: get_option('bindir'),
 )
 install_data(
+  'tools/nvidiagamescope-doctor',
+  install_dir: get_option('bindir'),
+)
+install_data(
   'tools/nvidiagamescope.desktop',
   install_dir: join_paths(get_option('datadir'), 'wayland-sessions'),
 )

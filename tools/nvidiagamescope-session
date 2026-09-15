@@ -15,7 +15,20 @@ if [ "$#" -eq 0 ]; then
     set -- steam -gamepadui
 fi
 
-# Force GPU composition in the experimental session. NVIDIA DRM direct
-# scan-out/plane paths have produced tiled/RGB-static artifacts on some
+# Force GPU composition in the experimental session by default. NVIDIA DRM
+# direct scan-out/plane paths have produced tiled/RGB-static artifacts on some
 # driver/display combinations; correctness is preferred over latency here.
-exec nvidiagamescope --backend drm --steam --keep-alive --force-composition -- "$@"
+# Set NVIDIAGAMESCOPE_PROFILE=performance to test direct scan-out instead.
+profile=${NVIDIAGAMESCOPE_PROFILE:-safe}
+case "$profile" in
+    safe)
+        exec nvidiagamescope --backend drm --steam --keep-alive --force-composition -- "$@"
+        ;;
+    performance)
+        exec nvidiagamescope --backend drm --steam --keep-alive -- "$@"
+        ;;
+    *)
+        printf '%s\n' "nvidiagamescope-session: unknown profile '$profile' (use safe or performance)" >&2
+        exit 2
+        ;;
+esac

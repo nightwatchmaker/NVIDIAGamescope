@@ -1,0 +1,41 @@
+#!/bin/sh
+# Print NVIDIA/Gamescope prerequisites for reproducible bug reports.
+set -u
+
+printf '%s\n' 'NVIDIAGamescope diagnostic report'
+printf 'date: '; date -Is
+printf 'kernel: '; uname -r
+printf 'session: %s / desktop: %s\n' "${XDG_SESSION_TYPE:-unset}" "${XDG_CURRENT_DESKTOP:-unset}"
+printf 'wayland_display: %s\n' "${WAYLAND_DISPLAY:-unset}"
+
+printf '\nNVIDIA:\n'
+if command -v nvidia-smi >/dev/null 2>&1; then
+    nvidia-smi --query-gpu=name,driver_version --format=csv,noheader 2>&1 || true
+else
+    printf '%s\n' 'nvidia-smi: missing'
+fi
+if test -r /sys/module/nvidia_drm/parameters/modeset; then
+    printf 'nvidia_drm.modeset: '
+    tr -d '\n' </sys/module/nvidia_drm/parameters/modeset
+    printf '\n'
+else
+    printf '%s\n' 'nvidia_drm.modeset: unavailable'
+fi
+
+printf '\nDRM devices:\n'
+if test -d /dev/dri; then
+    ls -l /dev/dri 2>&1
+else
+    printf '%s\n' '/dev/dri: missing'
+fi
+
+printf '\nExecutables:\n'
+for command_name in nvidiagamescope nvidiagamescope-session; do
+    if command -v "$command_name" >/dev/null 2>&1; then
+        command -v "$command_name"
+    else
+        printf '%s: missing\n' "$command_name"
+    fi
+done
+
+printf '\nRecommended first fallback: NVIDIAGAMESCOPE_PROFILE=safe\n'
