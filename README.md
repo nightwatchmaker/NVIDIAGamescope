@@ -37,7 +37,14 @@ Install with:
 meson install -C build/ --skip-subprojects
 ```
 
-For a local experimental install, the default prefix is `/usr/local`. This installs:
+For a local experimental install, use `/usr` when installing a display-manager session so SDDM/GDM can discover it:
+
+```
+meson setup build-nvidia --prefix=/usr ...
+meson install -C build-nvidia --skip-subprojects
+```
+
+This installs:
 
  - `nvidiagamescope` as the NVIDIA-focused compositor
  - `nvidiagamescope-session` as a Steam Big Picture session wrapper
