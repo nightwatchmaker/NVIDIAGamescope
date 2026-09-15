@@ -150,6 +150,7 @@ gamescope_cpp_args += '-DHAVE_SDL2=@0@'.format(sdl2_dep.found().to_int())
 gamescope_cpp_args += '-DHAVE_AVIF=@0@'.format(avif_dep.found().to_int())
 gamescope_cpp_args += '-DHAVE_LIBCAP=@0@'.format(cap_dep.found().to_int())
 gamescope_cpp_args += '-DHAVE_LIBEIS=@0@'.format(eis_dep.found().to_int())
+gamescope_cpp_args += '-DNVIDIAGAMESCOPE_NVIDIA_ONLY=@0@'.format(get_option('nvidia_only').to_int())
 gamescope_cpp_args += '-DHAVE_SCRIPTING=1'
 
 src += spirv_shaders
@@ -188,7 +189,7 @@ gamescope_version = configure_file(
 )
 
   executable(
-    'gamescope',
+    'nvidiagamescope',
     src, reshade_src, gamescope_version,
     include_directories : [reshade_include, sol2_include],
     dependencies: [

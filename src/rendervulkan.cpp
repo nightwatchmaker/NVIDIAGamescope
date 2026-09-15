@@ -351,6 +351,19 @@ bool CVulkanDevice::selectPhysDev(VkSurfaceKHR surface)
 		if (deviceProperties.apiVersion < VK_API_VERSION_1_2)
 			continue;
 
+#if NVIDIAGAMESCOPE_NVIDIA_ONLY
+		// This fork targets NVIDIA's proprietary Vulkan/DRM stack. Rejecting
+		// other vendors here prevents accidental mixed-GPU selection on hybrid
+		// systems, where the first enumerated device is not deterministic.
+		if (deviceProperties.vendorID != 0x10DE) /* NVIDIA */
+		{
+			vk_log.infof("skipping non-NVIDIA physical device '%s' (%04x:%04x)",
+			             deviceProperties.deviceName, deviceProperties.vendorID,
+			             deviceProperties.deviceID);
+			continue;
+		}
+#endif
+
 		uint32_t queueFamilyCount = 0;
 		vk.GetPhysicalDeviceQueueFamilyProperties(cphysDev, &queueFamilyCount, nullptr);
 		std::vector<VkQueueFamilyProperties> queueFamilyProperties(queueFamilyCount);

@@ -165,7 +165,7 @@ const struct option *gamescope_options = (struct option[]){
 };
 
 const char usage[] =
-	"usage: gamescope [options...] -- [command...]\n"
+	"usage: nvidiagamescope [options...] -- [command...]\n"
 	"\n"
 	"Options:\n"
 	"  --help                         show help message\n"

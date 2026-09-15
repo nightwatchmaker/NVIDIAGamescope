@@ -1,4 +1,4 @@
-## gamescope: the micro-compositor formerly known as steamcompmgr
+## NVIDIAGamescope: an NVIDIA-focused gamescope fork
 
 In an embedded session usecase, gamescope does the same thing as steamcompmgr, but with less extra copies and latency:
 
@@ -11,7 +11,7 @@ It also runs on top of a regular desktop, the 'nested' usecase steamcompmgr didn
  - Because the game is running in its own personal Xwayland sandbox desktop, it can't interfere with your desktop and your desktop can't interfere with it.
  - You can spoof a virtual screen with a desired resolution and refresh rate as the only thing the game sees, and control/resize the output as needed. This can be useful in exotic display configurations like ultrawide or multi-monitor setups that involve rotation.
 
-It runs on Mesa + AMD or Intel, and could be made to run on other Mesa/DRM drivers with minimal work. AMD requires Mesa 20.3+, Intel requires Mesa 21.2+. For NVIDIA's proprietary driver, version 515.43.04+ is required (make sure the `nvidia-drm.modeset=1` kernel parameter is set).
+NVIDIAGamescope is intentionally focused on NVIDIA's proprietary Vulkan/DRM stack. The default build rejects non-NVIDIA Vulkan physical devices to avoid unpredictable GPU selection on hybrid systems. NVIDIA driver version 515.43.04+ is required; enable DRM KMS with the `nvidia-drm.modeset=1` kernel parameter. AMD and Intel devices are not supported by the default configuration.
 
 If running RadeonSI clients with older cards (GFX8 and below), currently have to set `R600_DEBUG=nodcc`, or corruption will be observed until the stack picks up DRM modifiers support.
 
@@ -28,7 +28,7 @@ Build with:
 git submodule update --init
 meson setup build/
 ninja -C build/
-build/src/gamescope -- <game>
+build/src/nvidiagamescope -- <game>
 ```
 
 Install with:
