@@ -15,6 +15,7 @@ if [ "$#" -eq 0 ]; then
     set -- steam -gamepadui
 fi
 
-# DRM mode is the console-session path. The NVIDIA-only binary performs the
-# final physical-device check and emits a useful diagnostic on failure.
-exec nvidiagamescope --backend drm --steam -- "$@"
+# Keep the compositor alive if Steam briefly exits during a launcher transition.
+# This also avoids a known shutdown race with NVIDIA's asynchronous shader
+# compiler on the tested 610.57.04 driver.
+exec nvidiagamescope --backend drm --steam --keep-alive -- "$@"
