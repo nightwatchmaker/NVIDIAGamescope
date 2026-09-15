@@ -37,6 +37,14 @@ Install with:
 meson install -C build/ --skip-subprojects
 ```
 
+For a local experimental install, the default prefix is `/usr/local`. This installs:
+
+ - `nvidiagamescope` as the NVIDIA-focused compositor
+ - `nvidiagamescope-session` as a Steam Big Picture session wrapper
+ - `nvidiagamescope.desktop` into `share/wayland-sessions` for SDDM/GDM session selection
+
+The session is deliberately labeled **Experimental**. Select it from the display manager only when NVIDIA DRM KMS is enabled and the normal desktop session remains available for rollback. To remove the local install, use the generated uninstall script from the build directory or remove the package through your distribution's package manager.
+
 ## Keyboard shortcuts
 
 * **Super + F** : Toggle fullscreen

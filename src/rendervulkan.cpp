@@ -429,7 +429,11 @@ bool CVulkanDevice::selectPhysDev(VkSurfaceKHR surface)
 
 	if (!m_physDev)
 	{
+#if NVIDIAGAMESCOPE_NVIDIA_ONLY
+		vk_log.errorf("failed to find a Vulkan physical device on the NVIDIA-only path; check that the NVIDIA driver exposes Vulkan and nvidia-drm.modeset=1 is enabled");
+#else
 		vk_log.errorf("failed to find physical device");
+#endif
 		return false;
 	}
 

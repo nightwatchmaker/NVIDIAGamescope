@@ -114,6 +114,18 @@ if get_option('enable_tests') and get_option('enable_gamescope')
   subdir('tests')
 endif
 
+# Install a selectable console-style session for display managers such as
+# SDDM and GDM. This is intentionally separate from the normal application
+# menu: it starts DRM mode and Steam Big Picture through a small wrapper.
+install_data(
+  'tools/nvidiagamescope-session',
+  install_dir: get_option('bindir'),
+)
+install_data(
+  'tools/nvidiagamescope.desktop',
+  install_dir: join_paths(get_option('datadir'), 'wayland-sessions'),
+)
+
 
 # Handle default script/config/looks stuff
 meson.add_install_script('default_extras_install.sh')

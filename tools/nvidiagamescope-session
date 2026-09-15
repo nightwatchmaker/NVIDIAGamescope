@@ -1,0 +1,20 @@
+#!/bin/sh
+# Launch a Steam Big Picture session inside NVIDIAGamescope.
+#
+# Display managers invoke this script without arguments. Passing arguments is
+# useful for testing another session command, for example:
+#   nvidiagamescope-session steam -gamepadui
+set -eu
+
+if ! command -v nvidiagamescope >/dev/null 2>&1; then
+    printf '%s\n' 'nvidiagamescope-session: nvidiagamescope is not installed' >&2
+    exit 127
+fi
+
+if [ "$#" -eq 0 ]; then
+    set -- steam -gamepadui
+fi
+
+# DRM mode is the console-session path. The NVIDIA-only binary performs the
+# final physical-device check and emits a useful diagnostic on failure.
+exec nvidiagamescope --backend drm --steam -- "$@"
