@@ -15,7 +15,7 @@ if [ "$#" -eq 0 ]; then
     set -- steam -gamepadui
 fi
 
-# Keep the compositor alive if Steam briefly exits during a launcher transition.
-# This also avoids a known shutdown race with NVIDIA's asynchronous shader
-# compiler on the tested 610.57.04 driver.
-exec nvidiagamescope --backend drm --steam --keep-alive -- "$@"
+# Force GPU composition in the experimental session. NVIDIA DRM direct
+# scan-out/plane paths have produced tiled/RGB-static artifacts on some
+# driver/display combinations; correctness is preferred over latency here.
+exec nvidiagamescope --backend drm --steam --keep-alive --force-composition -- "$@"
